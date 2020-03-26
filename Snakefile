@@ -10,10 +10,6 @@ rule all:
 
 # Read accession from config
 def get_accession(wildcards):
-    # Return if file exists
-    if glob.glob("data/genomes/" + wildcards.ref + "*"):
-        return
-
     try:
         for item in config["genomes"].values():
             if item["filename"].split(".f", 1)[0] == wildcards.ref:
@@ -21,7 +17,11 @@ def get_accession(wildcards):
         raise KeyError
 
     except KeyError:
-        raise Exception("No accession in config found for {}".format(wildcards.ref + ".fna"))
+        # Return if file exists
+        if glob.glob("data/genomes/" + wildcards.ref + "*"):
+            return
+        else:
+            raise Exception("No accession in config found for {}".format(wildcards.ref + ".fna"))
 
 # If genome is not present,
 # 1) read accession from config
