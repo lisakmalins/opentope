@@ -1,7 +1,7 @@
 name: "coronaviruses"
 
 clustal:
-  options: "--verbose"
+  options: "--verbose --outfmt=clustal"
 
 genomes:
   sarscov2: # SARS CoV 2, RefSeq accession GCF_009858895.2
