@@ -8,8 +8,8 @@ rule all:
     input:
         "data/alignments/coronaviruses.aln"
 
-# Read RefSeq ftp links from config
-def get_ftp(wildcards):
+# Read accession from config
+def get_accession(wildcards):
     # Return if file exists
     if glob.glob("data/genomes/" + wildcards.ref + "*"):
         return
@@ -17,20 +17,29 @@ def get_ftp(wildcards):
     try:
         for item in config["genomes"].values():
             if item["filename"].split(".f", 1)[0] == wildcards.ref:
-                return item["ftp"]
+                return item["refseq-accession"]
         raise KeyError
 
     except KeyError:
-        raise Exception("No ftp link in config found for {}".format(wildcards.ref + ".fna"))
+        raise Exception("No accession in config found for {}".format(wildcards.ref + ".fna"))
 
-# If genome is not present, download with wget and redirect to data/genomes/
+# If genome is not present,
+# 1) read accession from config
+# 2) get FTP link via Entrez Direct
+# 3) download via wget
+# 4) save to data/genomes/ under user's desired filename
 rule download_genome:
     output:
         "data/genomes/{ref}.fna.gz"
     params:
-        ftp=get_ftp
-    shell:
-        "wget {params.ftp} -O {output}"
+        acc=get_accession
+    shell: """
+        wget `esearch -db assembly -query "{params.acc} [ASAC]" | \
+        efetch -format docsum | \
+        xtract -pattern DocumentSummary -element FtpPath_RefSeq | \
+        awk -F"/" '{{print $0"/"$NF"_genomic.fna.gz"}}'` \
+        -O {output}
+        """
 
 # Unzip with pigz
 rule unzip_genome:

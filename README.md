@@ -67,14 +67,16 @@ snakemake
 ## Running with your own datasets
 You may also alter the config file to run with other viral genomes.
 
-Please place your reference genome assemblies in the `data/genome/` directory, then enter the info for each organism into `config.yaml`. (FTP links are not necessary if you already downloaded the genomes.)
+Please place your reference genome assemblies in the `data/genome/` directory, then enter the info for each organism into `config.yaml`.
 
 Each organism must have an entry in the following format:
 ```yaml
 genomes:
   organism1: # You can put whatever nickname you want here
     filename: "..." # Enter the name of the genome assembly file
+    refseq-accession: "..."
   organism2:
     filename: "..."
+    refseq-accession: "..."
   # And so on...
 ```
