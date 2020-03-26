@@ -4,11 +4,9 @@ clustal:
   options: "--verbose"
 
 genomes:
-  sarscov2: # SARS CoV 2
-    refseq-accession: "GCF_009858895.2"
+  sarscov2: # SARS CoV 2, RefSeq accession GCF_009858895.2
     filename: "GCF_009858895.2_ASM985889v3_genomic.fna"
     ftp: "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/009/858/895/GCF_009858895.2_ASM985889v3/GCF_009858895.2_ASM985889v3_genomic.fna.gz"
-  sars1: # Original SARS coronavirus
-    refseq-accession: "GCF_000864885.1"
+  sars1: # Original SARS coronavirus, RefSeq accession GCF_000864885.1
     filename: "GCF_000864885.1_ViralProj15500_genomic.fna"
     ftp: "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/864/885/GCF_000864885.1_ViralProj15500/GCF_000864885.1_ViralProj15500_genomic.fna.gz"

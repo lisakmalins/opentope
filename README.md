@@ -55,3 +55,26 @@ conda activate opentope
 ```
 
 You only need to build the environment once. However, you'll need to activate the environment each time you log in. To deactivate the environment, use the command `conda deactivate`.
+
+### STEP 4: Run test case
+This repository includes an example config file for comparing coronavirus genomes.
+
+To run the included test case:
+```
+snakemake
+```
+
+## Running with your own datasets
+You may also alter the config file to run with other viral genomes.
+
+Please place your reference genome assemblies in the `data/genome/` directory, then enter the info for each organism into `config.yaml`. (FTP links are not necessary if you already downloaded the genomes.)
+
+Each organism must have an entry in the following format:
+```
+genomes:
+  organism1: # You can put whatever nickname you want here
+    filename: "..." # Enter the name of the genome assembly file
+  organism2:
+    filename: "..."
+  # And so on...
+```
