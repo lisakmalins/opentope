@@ -1,5 +1,6 @@
 # Opentope: An open-source pipeline to discover universal epitopes for vaccines.
 # Developed during the CEND Covid-19 Hackathon, 25-26 March 2020.
+import glob
 
 configfile: "config.yaml"
 
@@ -9,10 +10,18 @@ rule all:
 
 # Read RefSeq ftp links from config
 def get_ftp(wildcards):
-    for item in config["genomes"].values():
-        if item["filename"].split(".f", 1)[0] == wildcards.ref:
-            return item["ftp"]
-    raise Exception("No ftp link in config found for {}".format(gzipped_filename))
+    # Return if file exists
+    if glob.glob("data/genomes/" + wildcards.ref + "*"):
+        return
+
+    try:
+        for item in config["genomes"].values():
+            if item["filename"].split(".f", 1)[0] == wildcards.ref:
+                return item["ftp"]
+        raise KeyError
+
+    except KeyError:
+        raise Exception("No ftp link in config found for {}".format(wildcards.ref + ".fna"))
 
 # If genome is not present, download with wget and redirect to data/genomes/
 rule download_genome:
