@@ -7,7 +7,7 @@ rule all:
     input:
         "coronaviruses_alignment.aln"
 
-# Read ftp links from config
+# Read RefSeq ftp links from config
 def get_ftp(wildcards):
     for item in config["genomes"].values():
         if item["filename"].split(".f", 1)[0] == wildcards.ref:
@@ -22,6 +22,7 @@ rule download_genome:
     shell:
         "wget {params.ftp}"
 
+# Unzip with pigz
 rule unzip_genome:
     input:
         "{ref}.fna.gz"
@@ -30,13 +31,11 @@ rule unzip_genome:
     shell:
         "unpigz {input}"
 
-# Return list of genome files
-# Strip .gz if present so we don't care whether user typed .gz or not
+# Return list of unzipped genome files
 def get_genomes(wildcards):
     l = []
     for item in config["genomes"].values():
-        # print("heres an item")
-        # print(item)
+        # Strip .gz if present so we don't care whether user typed .gz or not
         l.append(item["filename"].split(".gz", 1)[0])
     return l
 
