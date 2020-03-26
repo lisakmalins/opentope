@@ -50,19 +50,18 @@ rule unzip_genome:
     shell:
         "unpigz {input}"
 
-# Return list of unzipped genome files
-def get_genomes(wildcards):
+# Return genome base names
+def get_genomes():
     l = []
     for item in config["genomes"].values():
-        # Get base filename, prepend "data/genomes"
-        # Strip .gz if present so we don't care whether user typed .gz or not
-        l.append("data/genomes/" + item["filename"].split(".gz", 1)[0])
+        # Get base filename, strip file extensions (.fa, .fna, .fasta, all supported)
+        l.append(item["filename"].split(".f", 1)[0])
     return l
 
 # Align all genomes with Clustal Omega (concatenate to standard in)
 rule clustal:
     input:
-        get_genomes
+        expand("data/genomes/{ref}.fna", ref=get_genomes())
     output:
         alignment="data/alignments/coronaviruses.aln"
     params:
