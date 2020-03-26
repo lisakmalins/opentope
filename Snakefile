@@ -58,17 +58,53 @@ def get_genomes():
         l.append(item["filename"].split(".f", 1)[0])
     return l
 
+
+# Optional feature: write sed script to alter genome fasta headers on the fly.
+# Makes Clustal output more human-readable by appending nicknames to nucleotide accessions.
+rule sed_expressions:
+    input:
+        expand("data/genomes/{ref}.fna", ref=get_genomes())
+    output:
+        "data/genomes/sedscript.txt"
+    run:
+        substitutions = {}
+
+        try:
+            for item in config["genomes"].values():
+                with open("data/genomes/" + item["filename"], 'r') as f:
+                    # Read header from genome fasta
+                    header = f.readline()
+                    id = header.split(" ", 1)[0]
+                    # Read nickname from config
+                    nickname = item["nickname"]
+                    newid = id + "__" + nickname
+                    # Save id and annotated id in dictionary
+                    substitutions[id] = newid
+
+            # Write all substitutions as sed script
+            with open(output[0], 'w') as sedscript:
+                for id, newid in substitutions.items():
+                    sedscript.write("s/{}/{}/\n".format(id, newid))
+
+        # If anything goes wrong, write empty file.
+        # Headers will not be edited & snakemake will not crash.
+        except:
+            with open(output[0], 'w') as sedscript:
+                sedscript.write("# This comment indicates that a sed script could not be written. Fasta headers will not be edited.\n")
+
 # Align all genomes with Clustal Omega (concatenate to standard in)
 rule clustal:
     input:
-        expand("data/genomes/{ref}.fna", ref=get_genomes())
+        genomes=expand("data/genomes/{ref}.fna", ref=get_genomes()),
+        sedscript="data/genomes/sedscript.txt"
     output:
         alignment="data/alignments/coronaviruses.aln"
     params:
         options=config["clustal"]["options"],
         guidetree="data/alignments/coronaviruses.dnd" # Kludge to not crash snakemake if guide tree not written
     shell: """
-    cat {input} | \
+    cat {input.genomes} | \
+    sed -f {input.sedscript} | \
     clustalo --seqtype=DNA --force {params.options} \
     --in=- --guidetree-out={params.guidetree} --out={output.alignment}
     """

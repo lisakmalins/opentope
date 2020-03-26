@@ -7,15 +7,20 @@ genomes:
   SARS_CoV_2: # SARS CoV 2
     filename: "GCF_009858895.2_ASM985889v3_genomic.fna"
     refseq-accession: "GCF_009858895.2"
+    nickname: "SARS2"
   SARS: # Original SARS coronavirus
     filename: "GCF_000864885.1_ViralProj15500_genomic.fna"
     refseq-accession: "GCF_000864885.1"
+    nickname: "SARS1"
   MERS: # Middle East respiratory syndrome-related coronavirus
     filename: "GCF_000901155.1_ViralProj183710_genomic.fna"
     refseq-accession: "GCA_000901155.1"
+    nickname: "MERS"
   OC43: # Human coronavirus OC43 (viruses)
     filename: "GCF_003972325.1_ASM397232v1_genomic.fna"
     refseq-accession: "GCA_003972325.1"
+    nickname: "OC43"
   HKU1: # Human coronavirus HKU1
     filename: "GCF_000858765.1_ViralProj15139_genomic.fna"
     refseq-accession: "GCA_000858765.1"
+    nickname: "HKU1"
