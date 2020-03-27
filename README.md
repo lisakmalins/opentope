@@ -9,13 +9,13 @@ Part of Team Vaccine's proposal: "An Open-Sourced Discovery Pipeline for a Unive
 <div align="center">
   <img src="images/flowchart.png" alt="Flowchart of EasyMSA pipeline" width="600px" />
   <p><i>Flowchart of EasyMSA pipeline.</i></p>
-<br />
+<br /><br />
   <img src="images/alignment_sample.png" alt="MSA sample of 5 human coronavirus genomes" width="600px" />
   <p><i>MSA sample of 5 human coronavirus genomes visualized with <a href = "https://www.ebi.ac.uk/Tools/msa/mview/">MView</a>.</i></p>
 </div>
 <br />
 
-#### Team Vaccine Contributors
+### Team Vaccine Contributors
 - __Nick Calcaterra__ – Serum testing, business development, and IP
 - __Andrew Favor__ – Structural analysis of conserved epitopes
 - __Lisa Malins__ – Sequence homology pipeline developer
@@ -33,7 +33,7 @@ Part of Team Vaccine's proposal: "An Open-Sourced Discovery Pipeline for a Unive
 ### STEP 1: Install miniconda and git
 If you are running this repository locally, you may install [git](https://git-scm.com/downloads) and [miniconda](https://conda.io/en/latest/miniconda.html) from their websites.
 
-If you are running this repository on a server, see [server installation instructions](docs/server_install.md) for how to install miniconda and git from the command line.
+If you are running this repository on a server, see [server instructions](server_install.md) for how to install miniconda and git from the command line.
 
 ### STEP 2: Clone the repository
 
