@@ -1,10 +1,34 @@
-# opentope
+# EasyMSA
 
-An open-source pipeline to discover universal epitopes for vaccines.
+EasyMSA is a zero-fuss RefSeq accession to multiple sequence alignment (MSA) tool.
 
-Developed during the [CEND](http://cend.globalhealth.berkeley.edu/) [Covid-19 Hackathon](https://www.cendcoronavirushackathon.com/), 25-26 March 2020.
+Developed by Lisa Malins during the [CEND](http://cend.globalhealth.berkeley.edu/) [Covid-19 Hackathon](https://www.cendcoronavirushackathon.com/), 25-26 March 2020.
 
-## Usage
+Part of Team Vaccine's proposal: "An Open-Sourced Discovery Pipeline for a Universal Coronavirus Vaccine."
+
+<div align="center">
+  <img src="images/flowchart.png" alt="Flowchart of EasyMSA pipeline" width="600px" />
+  <p><i>Flowchart of EasyMSA pipeline.</i></p>
+<br />
+  <img src="images/alignment_sample.png" alt="MSA sample of 5 human coronavirus genomes" width="600px" />
+  <p><i>MSA sample of 5 human coronavirus genomes visualized with <a href = "https://www.ebi.ac.uk/Tools/msa/mview/">MView</a>.</i></p>
+</div>
+<br />
+
+#### Team Vaccine Contributors
+- __Nick Calcaterra__ – Serum testing, business development, and IP
+- __Andrew Favor__ – Structural analysis of conserved epitopes
+- __Lisa Malins__ – Sequence homology pipeline developer
+- __Mahdi Moqri__ – Bioinformatics data analysis
+- __Zhiyuan Ruan__ – Protein surface analysis for epitope searching
+- __Adam Schieferecke__ – Delivery, in vitro and in vivo functional testing
+- __Johan Sosa__ – Epitope recognition and binding affinity
+
+
+
+----
+
+## EasyMSA Documentation
 
 ### STEP 1: Install miniconda and git
 If you are using a work or lab server, ask your sysadmin if git and conda are installed already. If so, skip to STEP 2.
@@ -67,16 +91,20 @@ snakemake
 ## Running with your own datasets
 You may also alter the config file to run with other viral genomes.
 
-Please place your reference genome assemblies in the `data/genome/` directory, then enter the info for each organism into `config.yaml`.
+- In order to automatically download the genome assemblies from NCBI, enter the __RefSeq accessions__ in the config file.
+- The __filename__ of each assembly is your choice.
+- You may enter a one-word __nickname__ for each organism to include in the Clustal alignment.
 
-Each organism must have an entry in the following format:
 ```yaml
 genomes:
-  organism1: # You can put whatever nickname you want here
-    filename: "..." # Enter the name of the genome assembly file
-    refseq-accession: "..."
+  organism1:
+    filename: "..."           # Required
+    refseq-accession: "..."   # Required to download from NCBI
+    nickname: "..."           # Optional
   organism2:
-    filename: "..."
-    refseq-accession: "..."
+    filename: "..."           # Required
+    refseq-accession: "..."   # Required to download from NCBI
+    nickname: "..."           # Optional
   # And so on...
 ```
+_You may also place pre-downloaded genome assemblies into `data/genomes/` and skip entering the RefSeq accessions._
